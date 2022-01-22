@@ -1,0 +1,44 @@
+2013-07-18  Tatiana Udalova  <t.udalova@samsung.com>
+
+	JIRA VDT-45
+
+	* binutils/readelf.c: Fix for readelf extra warning
+
+2013-06-12  Alexey Merzlyakov  <alexey.merzlyakov@samsung.com>
+
+	JIRA: VDT-31
+
+	Merge from upstream binutils 2.23
+	(75fcea69a176c4670e4d4dde464db77ae051b0fb)
+
+2013-04-10  Tatiana Udalova  <t.udalova@samsung.com>
+
+	JIRA: GA-113
+
+	binutils/
+
+	* ChangeLog.vd: New file.
+
+	Backport from Mainline:
+
+	Author: Nick Clifton <nickc@redhat.com>
+	Date:  Wed Jan 2 13:38:54 2013 +0000
+
+	PR gas/14987
+	* gas/arm/neon-ldst-es.s: Add whitespace test.
+	* gas/arm/neon-ldst-es.d: Update expected disassembly.
+
+	* config/tc-arm.c (parse_address_main): Skip whitespace before a
+	closing bracket.
+
+	Author: Nick Clifton <nickc@redhat.com>
+	Date:  Mon Jan 7 12:49:10 2013 +0000
+
+	PR gas/14887
+	* config/tc-arm.c (skip_past_char): Skip whitespace before the
+	anticipated character.
+	* config/tc-arm.c (parse_address_main): Delete skip of whitespace
+	here as it is no longer needed.
+
+	PR gas/14887
+	* gas/arm/neon-ldst-es.s: Add more whitespace.

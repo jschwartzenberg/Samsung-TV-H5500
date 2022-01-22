@@ -1,0 +1,12 @@
+2013-06-04  Alexey Merzlyakov  <alexey.merzlyakov@samsung.com>
+
+	JIRA: GA-118
+	Backport SRR patch. Update KFAIL patterns for PR 8216
+
+	2011-08-02  Ulrich Weigand  <ulrich.weigand@linaro.org>
+
+	Fix LP #615996
+
+	gdb/testsuite/
+	* gdb.cp/templates.exp: Update KFAIL patterns for PR 8216 to
+	also accept the ARM ABI.

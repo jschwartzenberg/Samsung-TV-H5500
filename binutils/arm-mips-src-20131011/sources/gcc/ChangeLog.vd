@@ -1,0 +1,146 @@
+2013-07-18  Tatiana Udalova  <t.udalova@samsung.com>
+
+	JIRA: VDT-43
+	Backport from VDLinux 3.
+
+	2012-10-04  Anton Leschenko  <a.leschenko@samsung.com>
+
+        JIRA: GA-70
+
+        Backport from CodeSourcery:
+        2010-02-04  Daniel Jacobowitz  <dan@codesourcery.com>
+
+        libstdc++-v3/
+        * libsupc++/eh_personality.cc (PERSONALITY_FUNCTION): For
+        ARM EABI, skip handlers for _US_VIRTUAL_UNWIND_FRAME
+        | _US_FORCE_UNWIND.
+
+	
+2013-07-03  Evgeny Gavrin  <e.gavrin@samsung.com>
+
+	JIRA: VDT-38
+
+	* gcc/dwarf2out.c(should_emit_struct_debug): Add check for
+	  type_decl is not NULL
+
+2013-06-18  Alexey Merzlyakov  <alexey.merzlyakov@samsung.com>
+
+	JIRA: GA-123
+
+	* gcc/testsuite/gcc.target/arm/neon/pr51534.c: Change floating-point
+	model flag
+
+2013-06-18  Evgeny Gavrin  <e.gavrin@samsung.com>
+
+        JIRA: VDT-18
+        Print warning from the compiler on usage of short-wchar flag.
+
+        gcc/
+        * gcc/testsuite/c-c++-common/short-wchar.c: Test to check if
+        short-wchar is inactive without flag
+        * gcc/testsuite/c-c++-common/short-wchar-2.c: Test to check if short-wchar
+        feature is active
+        * defaults.h: WCHAR_TYPE is active again. Restored to initial value
+
+2013-06-12  Alexey Merzlyakov  <alexey.merzlyakov@samsung.com>
+
+	JIRA: VDT-30
+
+	Merge from Linaro GCC-4.7 (bzr revno: 106926)
+
+2013-04-18  Alexey Merzlyakov  <alexey.merzlyakov@samsung.com>
+
+	JIRA: VDT-11
+	Backport from VDLinux 3.
+
+	2012-10-03  Alexey Merzlyakov  <alexey.merzlyakov@samsung.com>
+
+	JIRA: GA-70
+
+	gcc/
+	* defaults.h: WCHAR_TYPE is ignored the overriden by -fshort-wchar.
+
+2013-03-20  Alexey Merzlyakov  <alexey.merzlyakov@samsung.com>
+
+	JIRA: GA-111
+	Backport SRR patch. Remove DEV-PHASE from gcc
+
+	2012-09-30  Alexey Merzlyakov  <alexey.merzlyakov@samsung.com>
+	
+	JIRA: GA-70
+
+	gcc:
+	* DEV-PHASE: Stamp removed.
+
+2013-03-20  Alexey Merzlyakov  <alexey.merzlyakov@samsung.com>
+
+	JIRA: GA-111
+	Backport SRR patch. Disable -funwind-tables flag for crtstuff on MIPS
+
+	2012-10-03  Ildar Kaybyshev  <i.kaybyshev@samsung.com>
+
+	JIRA: GA-70
+
+	* gcc/config.gcc: Use new makefile to disable unwind table generation
+	for crtstuff on MIPS.
+	* gcc/config/mips/t-crt_no_unwind: New file, disables unwind table
+	generation for crtstuff on MIPS.
+
+2013-03-20  Alexey Merzlyakov  <alexey.merzlyakov@samsung.com>
+
+	JIRA: GA-111
+	Backport SRR patch. Add test for the default -fshort-wchar flag
+
+	2012-06-18 Dinar Temirbulatov <d.temirbulat@samsung.com>
+
+	JIRA: GA-44
+
+	gcc/testsuite/
+	* c-c++-common/short-wchar.c: New file.
+
+
+2013-03-20  Alexey Merzlyakov  <alexey.merzlyakov@samsung.com>
+
+	JIRA: GA-111
+	Backport SRR patch. Disable by default unaligned_access option for ARM.
+	
+	2012-03-29 Slava Garbuzov  <v.garbuzov@samsung.com>
+	
+	JIRA: GA-3
+
+	* gcc/config/arm/arm.opt(unaligned_access): Disable by default.
+
+2013-03-20  Alexey Merzlyakov  <alexey.merzlyakov@samsung.com>
+
+	JIRA: GA-111
+	Backport SRR patch.
+	
+	2012-02-28 Alexey Merzlyakov <alexey.merzlyakov@samsung.com>
+
+	JIRA: VDTC-29
+	
+	gcc/
+	* testsuite/gcc.dg/guality/inline-params.c: Treat test at -O1 option
+	on arm architecture as XFAIL
+
+2013-03-20  Alexey Merzlyakov  <alexey.merzlyakov@samsung.com>
+
+	JIRA: GA-111
+	Backport SRR patch.
+	Add new warning -Wglobal-constructors for C++ fronted, which
+	makes the compiler to generate warning for each global object with
+	non-trivial constructor (static initialization).
+
+	2011-11-01  Alexey Kravets  <a.kravets@samsung.com>
+
+	JIRA: VDTC-32
+
+	gcc/
+	* common.opt (Wglobal-constructors): New option.
+	* cp/decl2.c (one_static_initialization_or_destruction): Generate
+	warnings for static initialization of objects.
+	* doc/cppopts.texi (-Wglobal-constructors): New operation description.
+
+	gcc/testsuite/
+	* g++.dg/diagnostic/global-constructors.C: New test.
+

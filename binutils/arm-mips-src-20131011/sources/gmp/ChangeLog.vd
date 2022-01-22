@@ -1,0 +1,14 @@
+2012-04-05  Tatiana Udalova  <t.udalova@samsung.com>
+
+        JIRA: GA-113
+
+        gmp/
+        * mpn/arm/udiv.asm: Revert 2012-03-28 changes
+
+2012-03-28  Tatiana Udalova  <t.udalova@samsung.com>
+
+	JIRA: GA-113
+
+	gmp/
+	* mpn/arm/udiv.asm: Delete unneeded whitespaces.
+	* ChangeLog.vd: New file.

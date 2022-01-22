@@ -1,0 +1,594 @@
+2013-10-15 Maria Guseva  <m.guseva@samsung.com>
+
+        JIRA: VDT-138
+
+        libc/
+	* time/Makefile (tst-vdtime3): Define.
+	* time/tst-vdtime2.c (do_test): vd_settimeofday()
+	  arguments fixed to be in correct range.
+	* time/tst-vdtime3.c: New file. Test vd_settimeofday
+	  for bad arguments.
+	* time/vd_gettimeofday.c (vd_gettimeofday): Minor update
+	  of VD-GLIBC debug messages.
+	* time/vd_localtime.c (vd_localtime): Added check
+	  for negative result. Minor update of VD-GLIBC debug messages.
+	* time/vd_settimeofday.c (vd_settimeofday): Added check
+	  for arguments range. Minor update of VD-GLIBC debug messages.
+
+2013-10-11  Maria Guseva  <m.guseva@samsung.com>
+
+        JIRA: VDT-94
+
+        libc/
+	* include/sys/time.h (vd_settimeofday): Changed interface.
+	  (vd_gettimeofday): Declare.
+	  (vd_localtime): Ditto.
+	* ports/sysdeps/unix/sysv/linux/arm/nptl/libc.abilist
+	  (vd_gettimeofday): Declare.
+	  (vd_localtime): Ditto.
+	* sysdeps/unix/stime.c (stime): Change vd_settimeofday()
+	  call into settimeofday()
+	* sysdeps/unix/syscalls.list (vd_settimeofday): Removed.
+	* time/Makefile (vd_gettimeofday): Define.
+	  (vd_localtime): Ditto.
+	  (tst-vdtime1): Ditto.
+	  (tst-vdtime2): Ditto.
+	* time/Versions (vd_gettimeofday): Define.
+	  (vd_localtime): Ditto.
+	* time/sys/time.h (vd_settimeofday): Changed interface.
+	  (vd_gettimeofday): Declare.
+	  (vd_localtime): Ditto.
+	* time/tst-vdtime1.c: New file.
+	* time/tst-vdtime2.c: New file.
+	* time/tst_vdtime.h: New file.
+	* time/vd_gettimeofday.c: New file.
+	* time/vd_localtime.c: New file.
+	* time/vd_settimeofday.c (vd_settimeofday): Implemented
+	  with new interface.
+
+2013-09-06  Alexey Merzlyakov  <alexey.merzlyakov@samsung.com>
+
+	JIRA: VDT-41
+
+	libc/
+	* libc/nptl/pthread_cond_timedwait_relative.c:
+	Copy to ports/sysdeps/unix/sysv/linux/arm/nptl/pthread_cond_timedwait_relative.c
+	Copy to ports/sysdeps/unix/sysv/linux/mips/nptl/pthread_cond_timedwait_relative.c
+	(pthread_cond_timedwait_relative): Eliminate implementation.
+	* libc/nptl/pthread_mutex_timedlock_relative.c:
+	Copy to ports/sysdeps/unix/sysv/linux/arm/nptl/pthread_mutex_timedlock_relative.c
+	Copy to ports/sysdeps/unix/sysv/linux/mips/nptl/pthread_mutex_timedlock_relative.c
+	(pthread_mutex_timedlock_relative): Eliminate implementation.
+	* libc/nptl/pthread_timedjoin_relative.c:
+	Copy to ports/sysdeps/unix/sysv/linux/arm/nptl/pthread_timedjoin_relative.c
+	Copy to ports/sysdeps/unix/sysv/linux/mips/nptl/pthread_timedjoin_relative.c
+	(pthread_timedjoin_np_relative): Eliminate implementation.
+	* libc/nptl/sysdeps/unix/sysv/linux/sem_timedwait_relative.c:
+	Copy to ports/sysdeps/unix/sysv/linux/arm/nptl/sem_timedwait_relative.c
+	Copy to ports/sysdeps/unix/sysv/linux/mips/nptl/sem_timedwait_relative.c
+	(sem_timedwait_relative): Eliminate implementation.
+
+
+2013-09-05  Alexey Merzlyakov  <alexey.merzlyakov@samsung.com>
+
+	JIRA: VDT-82
+
+	libc/
+	* vd_debug.c (vd_print_debug): New global variable.
+	* vd_debug.h: Add new defines.
+
+	libc/libio/
+	* ioputs.c
+	(vd_puts_out_debug): New debugging function.
+	(_vd_IO_puts): Renamed to _IO_puts_native.
+	(_vd_IO_puts): New function with debugging messages.
+	(_IO_puts): Change _vd_IO_puts call to _IO_puts_native.
+
+	libc/stdio-common/
+	* Makefile: Add vd_debug.c
+	* fprintf.c
+	(vd_fprintf_out_debug): New debugging function.
+	(vd_fprintf): Renamed to fprintf_native,
+	change vd_vfprintf call to vfprintf_native.
+	(vd_fprintf): New function with debugging.
+	* vprintf.c
+	(vd_vprintf_out_debug): New debugging function.
+	(vd_vprintf): Add debugging,
+	change vd_vfprintf call to vfprintf_native.
+	* printf.c
+	(vd_printf_out_debug): New debugging function.
+	(vd_printf): Renamed to printf_native,
+	change vd_vfprintf call to vfprintf_native.
+	(vd_printf): New function with debugging.
+	* vfprintf.c
+	(vd_vfprintf_out_debug): New debugging function.
+	(vd_vfprintf): Renamed to vfprintf_native.
+	(vd_vfprintf): New function with debugging
+	(vfprintf): change vd_vfprintf call to vfprintf_native.
+	* vd_vfprintf.h
+	(fprintf_native, printf_native, vfprintf_native): Declare.
+
+2013-09-05  Alexey Merzlyakov  <alexey.merzlyakov@samsung.com>
+
+	JIRA: VDT-74
+
+	libc/
+	* vd_debug.c (vd_relative_debug): New global variable.
+	* vd_debug.h
+	(vd_check_debug, vd_out_debug): New function.
+
+	libc/nptl/
+	* Makefile: Add vd_debug.c
+	* pthread_cond_timedwait_relative.c: Add debugging functions.
+	* pthread_mutex_timedlock_relative.c: Ditto.
+	* pthread_rwlock_timedrdlock_relative.c: Ditto.
+	* pthread_rwlock_timedwrlock_relative.c: Ditto.
+	* pthread_timedjoin_relative.c: Ditto.
+	* sysdeps/unix/sysv/linux/sem_timedwait_relative.c: Ditto.
+
+	libc/rt/
+	* Makefile: Add vd_debug.c
+	* mq_timedreceive_relative.c: Add debugging functions.
+	* mq_timedsend_relative.c: Ditto.
+
+2013-08-13  Alexey Merzlyakov  <alexey.merzlyakov@samsung.com>
+
+	JIRA: VDT-65
+
+	libc/nptl
+	* tst-cond11_rel.c (pthread_cond_timedwait_relative):
+	Fix time checks.
+	* tst-sem5-settime_rel.c (sem_timedwait_relative):
+	Fix time checks.
+	* tst-join3-settime_rel.c (pthread_timedjoin_np_relative):
+	Add time checks.
+	* tst-rwlock9-settime_rel.c
+	(pthread_rwlock_timedwrlock_relative): Add time checks.
+	(pthread_rwlock_timedrdlock_relative): Ditto.
+
+2013-08-07  Alexey Merzlyakov  <alexey.merzlyakov@samsung.com>
+
+	JIRA: VDT-64
+
+	libc/
+	* nptl/pthread_timedjoin_relative.c (lll_timedwait_tid): Change function
+	to relative.
+
+2013-07-31  Alexey Merzlyakov  <alexey.merzlyakov@samsung.com>
+
+	JIRA: VDT-59
+
+	libc/
+	* nptl/Versions (pthread_timedjoin_relative_np): Change name.
+	* nptl/pthread_timedjoin_relative.c: Ditto.
+	* nptl/sysdeps/pthread/pthread.h: Ditto.
+	* nptl/tst-join3-settime_rel.c: Ditto.
+	* nptl/tst-join3_rel.c: Ditto.
+	* ports/sysdeps/unix/sysv/linux/arm/nptl/libpthread.abilist: Ditto.
+	* ports/sysdeps/unix/sysv/linux/mips/mips32/nptl/libpthread.abilist: Ditto.
+
+2013-07-29  Maria Guseva  <m.guseva@samsung.com>
+
+        JIRA: VDT-56
+
+        libc/
+        * time/settimeofday.c (settimeofday): Add debug message print
+
+2013-07-22  Maria Guseva  <m.guseva@samsung.com>
+
+	JIRA: VDT-44
+	Backport from VDLinux 3.
+
+	2012-03-16 Pavel Fedin <p.fedin@samsung.com>
+
+	JIRA: VDTC-93
+
+	libc
+       * scripts/cross-test-ssh.sh: Do not propagate LD_LIBRARY_PATH, may cause problems
+
+2013-07-18  Ilya Shpigor <i.shpigor@samsung.com>
+
+	JIRA: VDT-39
+
+	/libc
+	* configure: Disable checking for assembler and linker STT_GNU_IFUNC support
+
+2013-07-01  Maria Guseva  <m.guseva@samsung.com>
+
+        JIRA: VDT-34
+
+        libc/
+	* include/sys/time.h (vd_settimeofday): Declare.
+	* ports/sysdeps/unix/sysv/linux/arm/nptl/libc.abilist
+	  (vd_settimeofday): Declare.
+	* sysdeps/unix/stime.c (stime): Change settimeofday()
+	  call into vd_settimeofday()
+	* sysdeps/unix/syscalls.list (settimeofday): Rename
+	  into vd_settimeofday().
+	* time/Makefile (vd_settimeofday): Define.
+	* time/Versions (vd_settimeofday): Define.
+	* time/settimeofday.c (settimeofday): Modify from stub.
+	* time/sys/time.h (vd_settimeofday): Declare.
+	* time/vd_settimeofday.c: New file.
+
+2013-06-12  Alexey Merzlyakov  <alexey.merzlyakov@samsung.com>
+
+	JIRA: VDT-32
+
+	Merge from upstream eglibc 2.17
+	(08b1449aea27a333e59c2f66a7351ff396d8d053)
+
+2013-06-06  Maria Guseva  <m.guseva@samsung.com>
+
+        JIRA: VDT-27
+        glibc tests for new settimeofday-safe functions failed on echo-p
+
+        libc/
+	* rt/mq_timedreceive_relative.c: Fixed processing of invalid queue descriptor.
+	* rt/mq_timedsend_relative.c: Ditto.
+
+2013-05-28  Maria Guseva  <m.guseva@samsung.com>
+
+        JIRA: VDT-19
+        Implemement new glibc functions safe for settimeofday calls
+
+        libc/
+	* include/mqueue.h: Add mq_timedreceive_relative() and mq_timedsend_relative() declarations.
+	* ports/sysdeps/unix/sysv/linux/arm/nptl/librt.abilist: Ditto.
+	* rt/Makefile: Ditto.
+	* rt/Versions: Ditto.
+	* rt/mq_timedreceive_relative.c: New file, implementation of mq_timedreceive_relative().
+	* rt/mq_timedsend_relative.c: New file, implementation of mq_timedsend_relative().
+	* rt/mqueue.h:: Add mq_timedreceive_relative() and mq_timedsend_relative() declarations.
+	* rt/tst-mq_timedreceive_rel.c: New file, testcase for mq_timedreceive_relative().
+	* rt/tst-mq_timedreceive_rel2.c: Ditto. 
+	* rt/tst-mq_timedsend_rel.c: New file, testcase for mq_timedsend_relative().
+	* rt/tst-mq_timedsend_rel2.c: Ditto.
+
+2013-04-25  Alexey Merzlyakov  <alexey.merzlyakov@samsung.com>
+
+	JIRA: VDT-15
+	Backport from Open Source.
+	Bugfix for "dns no gethostbyname4"
+
+	2009-01-09  Petr Baudis  <pasky@ucw.cz>
+
+	libc/
+	* resolv/Versions (libnss_dns): Remove _nss_dns_gethostbyname4_r
+
+2013-04-25  Alexey Merzlyakov  <alexey.merzlyakov@samsung.com>
+
+	JIRA: VDT-14
+	Backport from Open Source.
+	Added lock to protect simultaneous modifications of 'environ'
+
+	2012-09-13  Stephan Bergmann  <sbergman@redhat.com>
+
+	libc/
+	* stdlib/getenv.c (getenv): Add lock-unlock of 'environ'
+
+2013-04-25  Alexey Merzlyakov  <alexey.merzlyakov@samsung.com>
+
+	JIRA: VDT-13
+	Backport from VDLinux 3.
+	
+	2011-12-29  Slava Garbuzov  <v.garbuzov@samsung.com>
+
+	JIRA: VDTC-53
+
+	libc/
+	* ports/sysdeps/arm/memcpy.S (memcpy): Increase preload size.
+
+2013-04-17  Alexey Merzlyakov  <alexey.merzlyakov@samsung.com>
+
+	JIRA: VDT-2
+	Backport from VDLinux 3.
+
+	2012-07-26  Anton Leschenko  <a.leschenko@samsung.com>
+
+	JIRA: GA-19
+	      GA-20
+	      GA-50
+	      GA-51
+	      GA-52
+	      GA-56
+	      GA-59
+
+	libc/
+	* stdlib/Makefile: Added getenv_r, setenv_r, putenv_r, unsetenv_r(),
+	tst-getenv_r, tst-putenv_r, tst-unsetenv_r declarations.
+	* stdlib/Versions: Ditto.
+	* stdlib/stdlib.h: Ditto.
+	* stdlib/setenv.c: Use plain libc lock instead of rwlock.
+	* stdlib/getenv_r.c: New file, implementation of getenv_r().
+	* stdlib/putenv_r.c: New file, implementation of putenv_r().
+	* stdlib/setenv_r.c: New file, implementation of setenv_r() and unsetenv_r().
+	* stdlib/tst-getenv_r.c: New file, test case for getenv_r() and setenv_r().
+	* stdlib/tst-putenv_r.c: New file, test case for putenv_r().
+	* stdlib/tst-unsetenv_r.c: New file, test case for unsetenv_r().
+	* stdlib/env_r.h: New file, add LOCK/UNLOCK macros. Declare getenv_r(), 
+	setenv_r(), putenv_r(); unsetenv_r().
+	* nptl/Versions: Added getenv_r(); setenv_r(), putenv_r(); unsetenv_r()
+	declarations.
+	* nptl/pthreadP.h: Ditto.
+	* nptl/pthread_once.c: Add strong alias for internal function
+	__pthread_once_internal.
+	* nptl/pthread_rwlock_init.c: Add strong alias for internal function
+	__pthread_rwlock_init_internal.
+	* string/string.h: Added dirname_r() declaration.
+	* misc/Makefile: Added dirname_r, tst-dirname_r declarations.
+	* misc/Versions: Added dirname_r() declaration.
+	* misc/dirname_r.c: New file, implementation of dirname_r().
+	* misc/tst-dirname_r.c: New file, test case for dirname_r().
+	* misc/libgen.h: Add stddef header to include size_t definition,
+	define dirname_r.
+	* io/Makefile: Added new functions ftw_r() and nftw_r().
+	* io/Versions: Ditto.
+	* io/ftw.h: Ditto.
+	* io/ftw_r.c: New file, ftw_r() and nftw_r() implementation.
+	* posix/Makefile: Added getopt_r() function.
+	* posix/Versions: Ditto.
+	* posix/getopt.h: Added getopt_r function. Added used for communication
+	from getopt_r to the caller structure.
+	* posix/getopt_r.c: New file, getopt_r() implementation.
+	* ports/sysdeps/unix/sysv/linux/arm/nptl/libc.abilist: Added dirname_r(),
+	ftw_r(), getenv_r(), getopt_r(), nftw_r(), putenv_r(), setenv_r(),
+	unsetenv_r() declarations.
+	* ports/sysdeps/unix/sysv/linux/mips/mips32/nptl/libc.abilist: Ditto.
+	* ports/sysdeps/unix/sysv/linux/arm/nptl/localplt.data: Added ftw() and
+	nftw() declarations.
+
+2013-04-16  Alexey Merzlyakov  <alexey.merzlyakov@samsung.com>  
+
+	JIRA: VDT-10
+	Backport from VDLinux 3.
+
+	2012-04-13 Pavel Fedin <p.fedin@samsung.com>
+
+	JIRA: GA-15
+
+	libc/
+	* malloc/obstack.h: Fixed conditions in order to prevent
+	address rollover.
+	* malloc/tst-obstack.c: Added rollover tests.
+
+2013-04-16  Alexey Merzlyakov  <alexey.merzlyakov@samsung.com>  
+
+	JIRA: VDT-9
+	Backport from VDLinux 3.
+
+	2010-02-02  Lee Hakbong <hakbong5.lee@samsung.com>
+
+	JIRA: VDTC-53
+
+	libc/
+	* nptl/pthread_cancel.c: Added pthread_cancel() warning msg patch.
+	* libc/stdlib/abort.c: Added abort() warning msg patch.
+	* elf/Makefile: Remove static-stubs from ldconfig build.
+	* Makeconfig (static-gnulib): Added -lgcc_eh.
+
+2013-04-16  Alexey Merzlyakov  <alexey.merzlyakov@samsung.com>	
+	
+	JIRA: VDT-5
+	Backport from VDLinux 3.
+
+	2010-02-01  Lee Hakbong <hakbong5.lee@samsung.com>
+		    Slava Garbuzov  <v.garbuzov@samsung.com>
+		    Anton Leschenko <a.leschenko@samsung.com>
+
+	JIRA: VDTC-53
+	      GA-7
+	      GA-48
+
+	libc/
+	* ports/sysdeps/arm/nptl/pthreaddef.h (THREAD_DEFAULT_PRIORITY): New.
+	* nptl/sysdeps/i386/pthreaddef.h: Ditto.
+	* nptl/sysdeps/powerpc/pthreaddef.h: Ditto.
+	* nptl/sysdeps/sh/pthreaddef.h: Ditto.
+	* ports/sysdeps/mips/nptl/pthreaddef.h: Ditto.
+	* nptl/allocatestack.c: Default Stack Size is 2M per each thread
+	for Embedded Linux of Samsung products.
+	* nptl/pthread_attr_setstacksize.c: Ditto.
+	* nptl/pthread_create.c: Ditto.
+	* nptl/pthread_setschedparam.c: Priority change between threads.
+	Non-preemptive priority-based scheduling (Policy: SCHED_OTHER)
+	* nptl/tst-vd_stack1.c: New file, test case setting minimal stack
+	size minus 1.
+	* nptl/tst-vd_stack2.c: New file, test case setting stack size to 8
+	megabytes.
+	* nptl/Makefile: Added new tests build instructions.
+
+2013-04-15  Alexey Merzlyakov  <alexey.merzlyakov@samsung.com>
+
+	JIRA: VDT-8
+	Backport from VDLinux 3.
+
+	2011-12-29  Slava Garbuzov  <v.garbuzov@samsung.com>
+	            Alexey Kravets <a.kravets@samsung.com>
+	            Anton Leschenko <a.leschenko@samsung.com>
+
+	JIRA: VDTC-53
+	      GA-2
+	      GA-4
+	      GA-6
+	      GA-14
+
+	libc/
+	* nptl/sysdeps/unix/sysv/linux/lowlevellock.c
+	(__lll_timedlock_wait_relative): New function.
+	Added generic implementation of lll_timedlock_wait_relative
+	function.
+	Added INTERNALL_SYSCALL_DECL to declare __err variable for
+	INTERNAL_SYSCALL.
+	* ports/sysdeps/unix/sysv/linux/arm/nptl/lowlevellock.c
+	(__lll_timedlock_wait_relative): New function.
+	(__lll_timedwait_tid_relative): New function.
+	* ports/sysdeps/unix/sysv/linux/arm/nptl/lowlevellock.h
+	(__lll_timedlock_wait_relative): New define.
+	(__lll_robust_timedlock_wait_relative): Ditto.
+	(__lll_timedlock_relative): Ditto.
+	(lll_timedlock_relative): Ditto.
+	(__lll_robust_timedlock_relative): Ditto.
+	(lll_robust_timedlock_relative): Ditto.
+	(lll_timedwait_tid_relative): Ditto.
+	* ports/sysdeps/unix/sysv/linux/mips/nptl/lowlevellock.h
+	(__lll_timedlock_wait_relative): New define.
+	(__lll_robust_timedlock_wait_relative): Ditto.
+	(__lll_timedlock_relative): Ditto.
+	(lll_timedlock_relative): Ditto.
+	(__lll_robust_timedlock_relative): Ditto.
+	(lll_robust_timedlock_relative): Ditto.
+	* ports/sysdeps/unix/sysv/linux/arm/nptl/libpthread.abilist
+	(pthread_cond_timedwait_relative): Added.
+	(pthread_mutex_timedlock_relative): Ditto.
+	(pthread_rwlock_timedrdlock_relative): Ditto.
+	(pthread_rwlock_timedwrlock_relative): Ditto.
+	(pthread_timedjoin_relative_np): Ditto.
+	(sem_timedwait_relative): Ditto.
+	* ports/sysdeps/unix/sysv/linux/mips/mips32/nptl/libpthread.abilist
+	(pthread_cond_timedwait_relative): Added.
+	(pthread_mutex_timedlock_relative): Ditto.
+	(pthread_rwlock_timedrdlock_relative): Ditto.
+	(pthread_rwlock_timedwrlock_relative): Ditto.
+	(pthread_timedjoin_relative_np): Ditto.
+	(sem_timedwait_relative): Ditto.
+	* nptl/Makefile (pthread_cond_timedwait_relative): Added.
+	(sem_timedwait_relative): Added.
+	(pthread_rwlock_timedrdlock_relative): Added.
+	(pthread_rwlock_timedwrlock_relative): Added.
+	(pthread_mutex_timedlock_relative): Added.
+	(tst-initializers1): Added new test case.
+	(tst-cond5_rel): Ditto.
+	(tst-cond6_rel): Ditto.
+	(tst-cond9_rel): Ditto.
+	(tst-cond11_rel): Ditto.
+	(tst-cond19_rel): Ditto.
+	(tst-cond20_rel): Ditto.
+	(tst-eintr5_rel): Ditto.
+	(tst-kill2_rel): Ditto.
+	(tst-kill3_rel): Ditto.
+	(tst-mutex-robust_rel): Ditto.
+	(tst-join3-settime_rel): Ditto.
+	(tst-join3_rel): Ditto.
+	(tst-rwlock9-settime_rel): Ditto.
+	(tst-sem5-settime_rel): Ditto.
+	(tst-mutex5-settime_rel): Added test case build rules.
+	* nptl/nptl-init.c
+	(.ptr___pthread_cond_timedwait_relative): New.
+	* nptl/semaphore.h: (sem_timedwait_relative): New.
+	* nptl/pthreadP.h (__pthread_cond_timedwait_relative): Declared.
+	* nptl/sysdeps/pthread/pthread-functions.h
+	(pthread_function): Updated.
+	* nptl/sysdeps/unix/sysv/linux/lowlevelrobustlock.c: Added helper
+	functions.
+	Added INTERNAL_SYSCALL_DECL to declare __err variable for
+	INTERNAL_SYSCALL.
+	* nptl/sysdeps/pthread/pthread.h
+	(pthread_cond_timedwait_relative): Declared.
+	(pthread_timedjoin_np_relative): Ditto.
+	(pthread_mutex_timedlock_relative): Ditto.
+	* nptl/pthread_cond_timedwait_relative.c: New file.
+	* nptl/pthread_timedjoin_relative.c: Ditto.
+	* nptl/pthread_rwlock_timedrdlock_relative.c: Ditto.
+	* nptl/pthread_rwlock_timedwrlock_relative.c: Ditto.
+	* nptl/pthread_mutex_timedlock_relative.c: Ditto.
+	* nptl/sysdeps/unix/sysv/linux/sem_timedwait_relative.c: Ditto.
+	* nptl/tst-mutex-robust_rel.c: New testcase for
+	pthread_mutex_timedlock_relative function.
+	* nptl/tst-mutex5-settime_rel.c: Ditto.
+	Fixed to pass when clock is shifted.
+	* nptl/tst-cond11_rel.c: New file, test case for
+	pthread_cond_timedwait_relative
+	* nptl/tst-cond19_rel.c: Ditto.
+	* nptl/tst-cond20_rel.c: Ditto.
+	* nptl/tst-cond5_rel.c: Ditto.
+	* nptl/tst-cond6_rel.c: Ditto.
+	* nptl/tst-cond9_rel.c: Ditto.
+	* nptl/tst-eintr5_rel.c: Ditto.
+	* nptl/tst-kill2_rel.c: Ditto.
+	* nptl/tst-kill3_rel.c: Ditto.
+	* nptl/tst-join3-settime_rel.c: New file, test case for
+	pthread_timedjoin_relative_np.
+	* nptl/tst-join3_rel.c: Ditto.
+	* nptl/tst-rwlock9-settime_rel.c: New file, test case for
+	pthread_rwlock_timedwrlock_relative &
+	pthread_rwlock_timedrdlock_relative.
+	* nptl/tst-sem5-settime_rel.c: New file, test case for
+	sem_timedwait_relative.
+	* nptl/tst-common.h: Added common header for newly added nptl
+	testcases.
+	* nptl/Versions
+	(pthread_cond_timedwait_relative): Added.
+	(pthread_timedjoin_relative_np): Ditto.
+	(sem_timedwait_relative): Ditto.
+	(pthread_rwlock_timedrdlock_relative): Ditto.
+	(pthread_rwlock_timedwrlock_relative): Ditto.
+	(pthread_mutex_timedlock_relative): Ditto.
+
+2013-04-15  Alexey Merzlyakov  <alexey.merzlyakov@samsung.com>
+
+	JIRA: VDT-3
+	Backport from VDLinux 3.
+	
+	2012-10-03  Ajeet Yadav  <ajeet.y@samsung.com>
+	
+	JIRA: GA-70
+	
+	If prelink fails during runtime the user is left with no logical
+	conclusion about the reason of fault, except "prelink checking:
+	failed" message with LD_DEBUG=all.
+	
+	This patch allows dynamic linker to provide more detailed information
+	about the cause of prelink failure.
+	
+	Dynamic linker checks following:
+	1. Executable not prelinked.
+	2. Shared library load at different base address.
+	3. Stored timestamp in shared library and program liblist different.
+	4. Stored checksum in shared library and program liblist different.
+	5. Stored and runtime shared library lookup sequence different.
+	6. Stored and runtime number of shared library different.
+	
+	This patch also adds a new LD_DEBUG=vdprelink option, this will
+	cause the program to exit, if prelink checking fails.
+	
+	If LD_DEBUG=vdprelink set, program exit for condition 2-6
+	
+	libc/
+	* elf/rtld.c: See above.
+	* sysdeps/generic/ldsodefs.h: Add new flag, DL_DEBUG_VDPRELINK.	
+
+2013-04-12  Alexey Merzlyakov  <alexey.merzlyakov@samsung.com>
+
+	JIRA: VDT-4
+	Backport from VDLinux 3.
+
+	2012-10-17  Anton Leschenko  <a.leschenko@samsung.com>
+
+	JIRA: GA-75
+	
+	libc/
+	* libio/iofwrite.c: Modify _IO_fwrite function to check environment
+	variable VD_PRINT_DISABLE and internal variable vd_print_disable
+	before printing.
+	* libio/ioputs.c: Rename regular _IO_puts function to _vd_IO_puts.
+	Add new function named _IO_puts which checks environment 
+	variable VD_PRINT_DISABLE and internal variable vd_print_disable
+	before printing.
+	* stdio-common/vfprintf.c: Rename regular vfprintf function to
+	vd_vfprintf. Add new function named vfprintf which checks environment
+	for VD_PRINT_DISABLE variable and internal variable vd_print_disable
+	before printing. Add internal variable vd_print_disable.
+	* stdio-common/fprintf.c: Add vd_fprintf function. Checks whether is
+	variable VD_PRINT_DISABLE writeen in stdin before printing.
+	* stdio-common/printf.c: Add vd_printf function.
+	* stdio-common/vprintf.c: Add vd_vprintf function.
+	* libio/stdio.h: Add new functions declarations.
+	* stdio-common/Versions: Add new functions into list.
+	* sysdeps/generic/localplt.data: Add vd_vfprintf to list of
+	safely useable inside eglibc functions.
+	* ports/sysdeps/unix/sysv/linux/arm/nptl/libc.abilist: Add new functions,
+	vd_vfprintf, vd_vprintf, vd_fprintf, vd_printf, vd_puts.
+	* ports/sysdeps/unix/sysv/linux/mips/mips32/nptl/libc.abilist: Ditto.
+	* ports/sysdeps/unix/sysv/linux/arm/nptl/localplt.data: Add vd_vfprintf
+	symbol to list of allowed to be executed from within libc itself.
