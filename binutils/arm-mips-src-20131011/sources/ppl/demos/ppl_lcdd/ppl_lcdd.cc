@@ -223,7 +223,7 @@ std::istream* input_stream_p = 0;
 
 void
 set_input(const char* file_name) {
-  if (input_stream_p && *input_stream_p != std::cin)
+  if (input_stream_p && input_stream_p != &std::cin)
     delete input_stream_p;
 
   if (file_name) {
@@ -249,7 +249,7 @@ std::ostream* output_stream_p = 0;
 
 void
 set_output(const char* file_name) {
-  if (output_stream_p && *output_stream_p != std::cout)
+  if (output_stream_p && output_stream_p != &std::cout)
     delete output_stream_p;
 
   if (file_name) {
@@ -499,7 +499,8 @@ template <typename T>
 bool
 guarded_read(std::istream& in, T& x) {
   try {
-    return in >> x;
+    in >> x;
+    return !in.fail();
   }
   catch (...) {
     return false;
@@ -511,7 +512,8 @@ void
 guarded_write(std::ostream& out, const T& x) {
   bool succeeded = false;
   try {
-    succeeded = out << x;
+    out << x;
+    succeeded = true;
   }
   catch (...) {
   }
@@ -1155,7 +1157,8 @@ write_polyhedron(std::ostream& out,
   // Flush `out'.
   bool flush_succeeded = false;
   try {
-    flush_succeeded = out.flush();
+    out.flush();
+    flush_succeeded = true;
   }
   catch (...) {
   }

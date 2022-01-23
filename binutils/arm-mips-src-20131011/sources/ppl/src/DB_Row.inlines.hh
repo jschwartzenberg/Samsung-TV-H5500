@@ -37,12 +37,8 @@ template <typename T>
 inline void*
 DB_Row_Impl_Handler<T>::Impl::operator new(const size_t fixed_size,
 					   const dimension_type capacity) {
-#if PPL_CXX_SUPPORTS_FLEXIBLE_ARRAYS
-  return ::operator new(fixed_size + capacity*sizeof(T));
-#else
   PPL_ASSERT(capacity >= 1);
   return ::operator new(fixed_size + (capacity-1)*sizeof(T));
-#endif
 }
 
 template <typename T>
@@ -64,9 +60,7 @@ DB_Row_Impl_Handler<T>::Impl
   return
     sizeof(*this)
     + capacity*sizeof(T)
-#if !PPL_CXX_SUPPORTS_FLEXIBLE_ARRAYS
     - 1*sizeof(T)
-#endif
     + external_memory_in_bytes();
 }
 
@@ -172,16 +166,11 @@ DB_Row<T>::DB_Row()
 template <typename T>
 inline void
 DB_Row<T>::allocate(
-#if PPL_CXX_SUPPORTS_FLEXIBLE_ARRAYS
-	       const
-#endif
 	       dimension_type capacity) {
   DB_Row<T>& x = *this;
   PPL_ASSERT(capacity <= max_size());
-#if !PPL_CXX_SUPPORTS_FLEXIBLE_ARRAYS
   if (capacity == 0)
     ++capacity;
-#endif
   PPL_ASSERT(x.impl == 0);
   x.impl = new (capacity) typename DB_Row_Impl_Handler<T>::Impl();
 #if PPL_DB_ROW_EXTRA_DEBUG

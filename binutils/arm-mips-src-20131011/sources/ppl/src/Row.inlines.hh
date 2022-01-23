@@ -75,12 +75,8 @@ Row::Flags::operator!=(const Flags& y) const {
 inline void*
 Row_Impl_Handler::Impl::operator new(const size_t fixed_size,
 				     const dimension_type capacity) {
-#if PPL_CXX_SUPPORTS_FLEXIBLE_ARRAYS
-  return ::operator new(fixed_size + capacity*sizeof(Coefficient));
-#else
   PPL_ASSERT(capacity >= 1);
   return ::operator new(fixed_size + (capacity-1)*sizeof(Coefficient));
-#endif
 }
 
 inline void
@@ -150,9 +146,7 @@ Row_Impl_Handler::Impl::total_memory_in_bytes(dimension_type capacity) const {
   return
     sizeof(*this)
     + capacity*sizeof(Coefficient)
-#if !PPL_CXX_SUPPORTS_FLEXIBLE_ARRAYS
     - 1*sizeof(Coefficient)
-#endif
     + external_memory_in_bytes();
 }
 
@@ -210,16 +204,11 @@ Row::Row()
 
 inline void
 Row::allocate(
-#if PPL_CXX_SUPPORTS_FLEXIBLE_ARRAYS
-	       const
-#endif
 	       dimension_type capacity,
 	       const Flags f) {
   PPL_ASSERT(capacity <= max_size());
-#if !PPL_CXX_SUPPORTS_FLEXIBLE_ARRAYS
   if (capacity == 0)
     ++capacity;
-#endif
   PPL_ASSERT(impl == 0);
   impl = new (capacity) Impl(f);
 #if PPL_ROW_EXTRA_DEBUG

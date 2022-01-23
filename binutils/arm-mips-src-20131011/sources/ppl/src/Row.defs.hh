@@ -502,9 +502,7 @@ private:
 
   //! The vector of coefficients.
   Coefficient vec_[
-#if !PPL_CXX_SUPPORTS_FLEXIBLE_ARRAYS
 	       1
-#endif
   ];
 
   //! Private and unimplemented: default construction is not allowed.

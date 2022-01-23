@@ -34,11 +34,9 @@ void
 PPL::Row_Impl_Handler::
 Impl::expand_within_capacity(const dimension_type new_size) {
   PPL_ASSERT(size() <= new_size && new_size <= max_size());
-#if !PPL_CXX_SUPPORTS_FLEXIBLE_ARRAYS
   // vec_[0] is already constructed.
   if (size() == 0 && new_size > 0)
     bump_size();
-#endif
   for (dimension_type i = size(); i < new_size; ++i) {
     new (&vec_[i]) Coefficient();
     bump_size();
@@ -51,11 +49,9 @@ PPL::Row_Impl_Handler::Impl::shrink(dimension_type new_size) {
   PPL_ASSERT(new_size <= old_size);
   // Since ~Coefficient() does not throw exceptions, nothing here does.
   set_size(new_size);
-#if !PPL_CXX_SUPPORTS_FLEXIBLE_ARRAYS
   // Make sure we do not try to destroy vec_[0].
   if (new_size == 0)
     ++new_size;
-#endif
   // We assume construction was done "forward".
   // We thus perform destruction "backward".
   for (dimension_type i = old_size; i-- > new_size; )
@@ -65,12 +61,6 @@ PPL::Row_Impl_Handler::Impl::shrink(dimension_type new_size) {
 void
 PPL::Row_Impl_Handler::Impl::copy_construct_coefficients(const Impl& y) {
   const dimension_type y_size = y.size();
-#if PPL_CXX_SUPPORTS_FLEXIBLE_ARRAYS
-  for (dimension_type i = 0; i < y_size; ++i) {
-    new (&vec_[i]) Coefficient(y.vec_[i]);
-    bump_size();
-  }
-#else
   PPL_ASSERT(y_size > 0);
   if (y_size > 0) {
     vec_[0] = y.vec_[0];
@@ -80,7 +70,6 @@ PPL::Row_Impl_Handler::Impl::copy_construct_coefficients(const Impl& y) {
       bump_size();
     }
   }
-#endif
 }
 
 void
@@ -153,9 +142,9 @@ PPL::Row::Flags::ascii_load(std::istream& s) {
     return false;
   s.width(sz);
   std::istream::fmtflags f = s.setf(std::istream::hex);
-  bool r = s >> bits;
+  s >> bits;
   s.flags(f);
-  return r;
+  return !s.fail();
 }
 
 void
@@ -215,14 +204,12 @@ PPL::Row::OK() const {
 
   bool is_broken = false;
 #if PPL_ROW_EXTRA_DEBUG
-# if !PPL_CXX_SUPPORTS_FLEXIBLE_ARRAYS
   if (capacity_ == 0) {
     cerr << "Illegal row capacity: is 0, should be at least 1"
 	 << endl;
     is_broken = true;
   }
   else
-# endif // !PPL_CXX_SUPPORTS_FLEXIBLE_ARRAYS
   if (capacity_ > max_size()) {
     cerr << "Row capacity exceeds the maximum allowed size:"
 	 << endl
@@ -271,12 +258,10 @@ PPL::Row::OK(const dimension_type row_size,
 
 #if PPL_ROW_EXTRA_DEBUG
   // Check the declared capacity.
-# if !PPL_CXX_SUPPORTS_FLEXIBLE_ARRAYS
   if (capacity_ == 1 && row_capacity == 0)
     // This is fine.
     ;
   else
-# endif // !PPL_CXX_SUPPORTS_FLEXIBLE_ARRAYS
   if (capacity_ != row_capacity) {
     cerr << "Row capacity mismatch: is " << capacity_
 	 << ", should be " << row_capacity << "."

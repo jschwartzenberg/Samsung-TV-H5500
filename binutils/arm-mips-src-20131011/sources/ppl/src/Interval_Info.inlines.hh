@@ -87,7 +87,7 @@ Interval_Info_Bitset<T, Policy>::ascii_load(std::istream& s) {
   std::ios_base::fmtflags old = s.flags();
   if (s >> std::hex >> bitset) {
     s.flags(old);
-    return s;
+    return !s.fail();
   }
   else
     return false;
